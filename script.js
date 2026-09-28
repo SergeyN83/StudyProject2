@@ -1,24 +1,49 @@
 'use strict'
 
-// function counter(n) {
-//     return function (x) {
-//         return x + n
-//     }
-// }
+let resolve = true;
 
-// let sum = counter(1)
-// console.log(sum(15));
+function askedNumber(n) {
+    function game(counter) {
 
-// url generator
+        if (counter == 0) {
+            resolve = confirm("Попытки закончились, хотите сыграть еще?")
 
-function pathGenerator(url) {
-    return function (imageName) {
-        return url + imageName
+            if (resolve == true) {
+                game(10)
+            } else return
+        }
+
+        const answer = prompt(`Угадай число от 1 до 100, количество оставшихся попыток: ${counter}`)
+        counter--
+
+        if (answer === null) {
+            alert("Игра окончена")
+            return
+        }
+
+        const trimmedInput = answer.trim();
+        const userNumber = Number(trimmedInput);
+
+        if (trimmedInput === "" || Number.isNaN(userNumber)) {
+            alert("Введи число!")
+            counter++
+            game(counter)
+        } else if (n > answer) {
+            alert(`Загаданное число больше, осталось ${counter} попыток`)
+            game(counter)
+        } else if (n < answer) {
+            alert(`Загаданное число меньше, осталось ${counter} попыток`)
+            game(counter)
+        } else if (n == answer) {
+            const resolve = confirm("Поздравляю, Вы угадали!!! Хотели бы сыграть еще?")
+            if (resolve == true) {
+                game(10)
+            } else return
+        }
     }
+
+
+    game(10)
 }
 
-let urlToIcons = pathGenerator('http://mydomain.ru/assets/icons/')
-let urlToImages = pathGenerator('http://mydomain.ru/assets/images/')
-
-console.log(urlToIcons('clock.svg'));
-console.log(urlToImages('main.png'));
+askedNumber(55)
